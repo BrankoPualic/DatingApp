@@ -11,7 +11,7 @@ namespace API.Services
         private readonly Cloudinary _cloudinary;
         public PhotoService(IOptions<CloudinarySettings> config)
         {
-            Account acc = new Account
+            var acc = new Account
             (
                 config.Value.CloudName,
                 config.Value.ApiKey,
