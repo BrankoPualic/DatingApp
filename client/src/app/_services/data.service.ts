@@ -20,7 +20,11 @@ export class DataService {
     return this.http.get<T>(`${this.baseUrl}${url}`);
   }
 
-  put(url: string, member: Member) {
-    return this.http.put(`${this.baseUrl}${url}`, member);
+  put(url: string, obj: any) {
+    return this.http.put(`${this.baseUrl}${url}`, obj);
+  }
+
+  delete(url: string) {
+    return this.http.delete(`${this.baseUrl}${url}`);
   }
 }
