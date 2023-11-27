@@ -54,4 +54,4 @@ export class MemberListComponent implements OnInit {
       this.loadMembers();
     }
   }
-} // 157
+}
