@@ -96,6 +96,14 @@ export class MembersService {
     return this.dataService.delete(`users/delete-photo/${photoId}`);
   }
 
+  addLike(username: string) {
+    return this.dataService.post(`likes/${username}`, {});
+  }
+
+  getLikes(predicate: string) {
+    return this.dataService.get<Member[]>(`likes?predicate=${predicate}`);
+  }
+
   private getPaginatedResult<T>(url: string, params: HttpParams) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
     return this.dataService
