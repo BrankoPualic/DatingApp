@@ -26,4 +26,8 @@ export class MessageService {
       content,
     });
   }
+
+  deleteMessage(id: number) {
+    return this.dataService.delete(`messages/${id}`);
+  }
 }
