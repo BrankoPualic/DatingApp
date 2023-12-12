@@ -15,7 +15,7 @@ namespace API.Data
 
             string userData = await File.ReadAllTextAsync("Data/UserSeedData.json");
 
-            var options = new JsonSerializerOptions{PropertyNameCaseInsensitive = true};
+            // var options = new JsonSerializerOptions{PropertyNameCaseInsensitive = true};
 
             List<AppUser> users = JsonSerializer.Deserialize<List<AppUser>>(userData);
 
@@ -33,6 +33,7 @@ namespace API.Data
 
             foreach(AppUser user in users)
             {
+                user.Photos.First().IsApproved = true;
                 user.UserName = user.UserName.ToLower();
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");

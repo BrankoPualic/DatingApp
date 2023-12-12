@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { User } from '../_models/user';
+import { Photo } from '../_models/photo';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +18,17 @@ export class AdminService {
       `admin/edit-roles/${username}?roles=${roles}`,
       {}
     );
+  }
+
+  getPhotosForApproval() {
+    return this.dataService.get<Photo[]>('admin/photos-to-moderate');
+  }
+
+  approvePhoto(photoId: number) {
+    return this.dataService.post(`admin/approve-photo/${photoId}`, {});
+  }
+
+  rejectPhoto(photoId: number) {
+    return this.dataService.post(`admin/reject-photo/${photoId}`, {});
   }
 }
