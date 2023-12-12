@@ -82,9 +82,7 @@ namespace API.Data
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
         {
-            var messages = await _context.Messages
-                .Include(u => u.Sender).ThenInclude(p => p.Photos)
-                .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+            var query = _context.Messages
                 .Where(
                     m => m.RecipientUsername == currentUsername && m.RecipientDeleted == false &&
                     m.SenderUsername == recipientUsername ||
@@ -92,9 +90,9 @@ namespace API.Data
                     m.SenderUsername == currentUsername
                 )
                 .OrderBy(m => m.MessageSent)
-                .ToListAsync();
+                .AsQueryable();
 
-            var unreadMessages = messages.Where(m => m.DateRead == null 
+            var unreadMessages = query.Where(m => m.DateRead == null 
                 && m.RecipientUsername == currentUsername).ToList();
             
             if(unreadMessages.Any())
@@ -105,7 +103,7 @@ namespace API.Data
                 }
             }
 
-            return _mapper.Map<IEnumerable<MessageDto>>(messages);
+            return await query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 
         }
 
